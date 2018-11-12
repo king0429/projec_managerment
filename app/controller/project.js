@@ -16,7 +16,8 @@ class ProjectController extends Controller {
   async getList () {
   	const { app, ctx } = this
   	const {query} = ctx
-    let pageSize = Number(query.page) || 5, page = query.page - 1 < 0 ? 0 : page - 1 || 0, len
+    let pageSize = Number(query.page) || 5, page, len
+    page = query.page - 1 < 0 ? 0 : page - 1 || 0
     console.log('pageSize:', pageSize)
     await app.mongoose.model('pm_project').count().then(res => {
       len = res
@@ -24,7 +25,7 @@ class ProjectController extends Controller {
       console.log('error')
       console.log(err)
     })
-  	await app.mongoose.model('pm_project').find({}, {project_name: '1', _id: '1', project_status: '1', create_time: '1', projec_level: 1}).skip(page).limit(pageSize).then(res => {
+  	await app.mongoose.model('pm_project').find().skip(page).limit(pageSize).then(res => {
   		ctx.body = {list: res, code: 1, len}
   	}).catch(err => {
       console.log(err)
