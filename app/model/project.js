@@ -24,9 +24,9 @@ module.exports = app => {
       type: Array,
       default: []
     },
-    projec_level: {
+    project_level: {
       type:Int32,
-      required: true
+      default: 1
     },
     project_documents: {
       type: Array,
