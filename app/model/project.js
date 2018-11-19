@@ -14,7 +14,7 @@ module.exports = app => {
     },
     project_duration: {
       type: Int32,
-      default: 3
+      default: 30
     },
     project_originator: {
       type: String,
