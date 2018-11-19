@@ -15,6 +15,10 @@ module.exports = appInfo => {
 	    options: {}
 	  }
 	};
-
+  config.security = {
+    csrf: {
+      enable: false
+    }
+  }
   return config;
 };
