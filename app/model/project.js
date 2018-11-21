@@ -57,6 +57,11 @@ module.exports = app => {
     // 项目描述
     project_desc: {
     	type: String
+    },
+    // 项目节点
+    node_list: {
+    	type: Array,
+    	default: []
     }
   })
   return mongoose.model('pm_project', ProjectSchema);

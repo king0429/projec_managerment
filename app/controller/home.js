@@ -4,7 +4,11 @@ const Controller = require('egg').Controller;
 
 class HomeController extends Controller {
   async index() {
-    this.ctx.body = 'hi, egg';
+    console.log('---------------------------------')
+    let a = {}
+    console.dir(this.ctx.req.connection.TCP)
+    a = this.ctx.req.connection
+    this.ctx.body = this.ctx.request;
   }
   async test () {
 		const { app, ctx, service } = this

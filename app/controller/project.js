@@ -1,7 +1,7 @@
 'use strict';
 // const testModal = require('../modal/test.modal.js');
 const Controller = require('egg').Controller;
-const {setError} = require('../utils/utils.js');
+const {setErrorm, getStr, enHash} = require('../utils/utils.js');
 
 class ProjectController extends Controller {
 	// projectModel.insert(this)
@@ -16,16 +16,23 @@ class ProjectController extends Controller {
   async getList () {
   	const { app, ctx } = this
   	const {query} = ctx
-    let pageSize = Number(query.page) || 10, page, len
-    page = query.page - 1 < 0 ? 0 : page - 1 || 0
-    console.log('pageSize:', pageSize)
+    // consoel.log(query)
+    let pageSize = Number(query.page_size) || 5, page, len
+    // page = (query.page - 1 < 0 ? 0 : page - 1) || 0
+    // if (query.page) {
+    //   page = query.page
+    // } else {
+    //   page = 1
+    // }
+    page = Number(query.page) || 1
+    console.log(query.page)
     await app.mongoose.model('pm_project').count().then(res => {
       len = res
     }).catch(err => {
       console.log('error')
       console.log(err)
     })
-  	await app.mongoose.model('pm_project').find().skip(page).limit(pageSize).then(res => {
+  	await app.mongoose.model('pm_project').find().skip((page - 1) * pageSize).limit(pageSize).then(res => {
   		ctx.body = {list: res, code: 1, len}
   	}).catch(err => {
       console.log(err)
@@ -35,8 +42,8 @@ class ProjectController extends Controller {
   async create () {
     const {app, ctx} = this
     let data = ctx.request.body
-    // console.log()
-    data.project_uid = Date.parse(new Date()).toString()
+    data.create_time = new Date()
+    data.project_uid = enHash(new Date())
     await app.mongoose.model('pm_project').create(data).then(res => {
       ctx.body = {code: 1, project_id: res._id}
     }).catch(err => {
